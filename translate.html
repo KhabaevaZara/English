@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Лингвист-Агент: Миссия по переводу</title>
+    <title>Миссия: Лингвистический Шпион</title>
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #e74c3c;
-            --accent: #3498db;
-            --light: #ecf0f1;
-            --dark: #1a252f;
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --accent: #4fc3f7;
+            --dark: #0a1128;
+            --light: #f8f9fa;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
         }
         
         * {
@@ -24,293 +27,329 @@
             background-color: var(--light);
             color: var(--dark);
             line-height: 1.6;
-            background-image: url('https://images.unsplash.com/photo-1518655048521-f130df041f66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-        }
-        
-        .overlay {
-            background-color: rgba(255, 255, 255, 0.9);
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
-            padding: 20px;
         }
         
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 2rem;
         }
         
         header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 2rem;
             animation: fadeIn 1s ease-in-out;
         }
         
         h1 {
             color: var(--secondary);
             font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
         
-        .mission-badge {
-            background-color: var(--secondary);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            display: inline-block;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
+        .subtitle {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
         }
         
         .mission-card {
-            background-color: white;
+            background: white;
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            margin-bottom: 30px;
-            transform: perspective(1000px) rotateX(0deg);
-            transition: transform 0.5s, box-shadow 0.5s;
-            animation: slideUp 0.8s ease-out;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideUp 0.8s ease-in-out;
         }
         
         .mission-card:hover {
-            transform: perspective(1000px) rotateX(5deg);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
         }
         
-        h2 {
-            color: var(--primary);
-            margin-bottom: 20px;
+        .mission-title {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
             border-bottom: 2px solid var(--accent);
-            padding-bottom: 10px;
-            display: flex;
-            align-items: center;
+            padding-bottom: 0.5rem;
+            display: inline-block;
         }
         
-        h2 svg {
-            margin-right: 10px;
-            fill: var(--accent);
+        .text-display {
+            background-color: #f0f4f8;
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            position: relative;
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        .text-display::before {
+            content: '"';
+            font-size: 4rem;
+            color: var(--accent);
+            opacity: 0.2;
+            position: absolute;
+            top: -1rem;
+            left: 0.5rem;
         }
         
         .original-text {
-            background-color: var(--light);
-            padding: 20px;
-            border-left: 4px solid var(--accent);
-            margin-bottom: 20px;
-            position: relative;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--dark);
         }
         
-        .original-text::before {
-            content: "🔍 Оригинал";
-            position: absolute;
-            top: -10px;
-            left: 10px;
-            background-color: var(--accent);
-            color: white;
-            padding: 2px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-        }
-        
-        .translation-area {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .translation-section {
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .translation-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .translation-title {
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        .hint-button {
+        .hint-btn {
             background-color: var(--accent);
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 0.5rem 1rem;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 0.8rem;
-            transition: background-color 0.3s;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 500;
         }
         
-        .hint-button:hover {
-            background-color: #2980b9;
+        .hint-btn:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .hint-btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .hint-box {
+            background-color: #fff9c4;
+            border-left: 4px solid var(--warning);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0 8px 8px 0;
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .hint-box.show {
+            display: block;
+        }
+        
+        .translation-section {
+            margin-top: 2rem;
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            background: #f1f1f1;
+            border: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 0.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab:hover:not(.active) {
+            background: #ddd;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .tab-content.active {
+            display: block;
         }
         
         textarea {
             width: 100%;
-            min-height: 100px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            min-height: 150px;
+            font-size: 1rem;
             resize: vertical;
-            transition: border-color 0.3s;
+            transition: border 0.3s ease;
+            margin-bottom: 1rem;
         }
         
         textarea:focus {
+            border-color: var(--accent);
             outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+            box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.2);
         }
         
-        .localization-options {
+        .audience-selector {
+            margin: 1.5rem 0;
+        }
+        
+        .audience-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+        
+        .audience-options {
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
             flex-wrap: wrap;
+            gap: 0.5rem;
         }
         
-        .localization-option {
-            background-color: var(--light);
-            border: 1px solid #ddd;
-            padding: 5px 10px;
+        .audience-btn {
+            padding: 0.5rem 1rem;
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
             border-radius: 20px;
-            font-size: 0.8rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
         
-        .localization-option:hover, .localization-option.active {
-            background-color: var(--accent);
+        .audience-btn:hover {
+            background: #bbdefb;
+        }
+        
+        .audience-btn.active {
+            background: var(--primary);
             color: white;
-            border-color: var(--accent);
-        }
-        
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
+            border-color: var(--primary);
         }
         
         .btn {
-            padding: 12px 25px;
+            padding: 0.8rem 1.5rem;
+            background: var(--primary);
+            color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            display: flex;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
             align-items: center;
-            gap: 8px;
+            margin-right: 0.5rem;
         }
         
-        .btn-primary {
-            background-color: var(--accent);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: #2980b9;
+        .btn:hover {
+            background: var(--secondary);
             transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn i {
+            margin-right: 0.5rem;
         }
         
         .btn-secondary {
-            background-color: var(--light);
-            color: var(--dark);
-            border: 1px solid #ddd;
+            background: #e0e0e0;
+            color: #333;
         }
         
         .btn-secondary:hover {
-            background-color: #ddd;
-            transform: translateY(-2px);
+            background: #bdbdbd;
         }
         
-        .hint-box {
-            background-color: #fff9e6;
-            border-left: 4px solid #f1c40f;
-            padding: 15px;
-            margin-top: 15px;
-            border-radius: 0 5px 5px 0;
-            display: none;
-            animation: fadeIn 0.5s;
+        .btn-success {
+            background: var(--success);
         }
         
-        .hint-title {
-            font-weight: bold;
-            color: #f39c12;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .mission-complete {
-            text-align: center;
-            padding: 40px;
-            background-color: rgba(46, 204, 113, 0.1);
-            border-radius: 10px;
-            margin-top: 30px;
-            display: none;
-            animation: fadeIn 1s;
-        }
-        
-        .mission-complete h3 {
-            color: #27ae60;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-        }
-        
-        .mission-complete p {
-            margin-bottom: 20px;
-        }
-        
-        .hidden-features {
-            margin-top: 40px;
-            display: none;
-            animation: fadeIn 1s;
+        .btn-success:hover {
+            background: #388e3c;
         }
         
         .error-examples {
-            background-color: #fdedec;
-            border-left: 4px solid #e74c3c;
-            padding: 20px;
-            margin-top: 20px;
-            border-radius: 0 5px 5px 0;
+            background: #ffebee;
+            border-left: 4px solid var(--danger);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 0 8px 8px 0;
+            animation: fadeIn 1s ease-in-out;
         }
         
-        .error-examples h4 {
-            color: #e74c3c;
-            margin-bottom: 10px;
+        .error-title {
+            color: var(--danger);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .error-title i {
+            margin-right: 0.5rem;
         }
         
         .error-item {
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
         }
         
         .error-original {
-            font-weight: bold;
+            font-weight: 600;
         }
         
         .error-incorrect {
-            color: #e74c3c;
+            color: var(--danger);
             text-decoration: line-through;
         }
         
         .error-correct {
-            color: #27ae60;
-            font-weight: bold;
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .success-message {
+            background: #e8f5e9;
+            border-left: 4px solid var(--success);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 0 8px 8px 0;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        .success-message h3 {
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            animation: confettiFall 3s linear forwards;
         }
         
         @keyframes fadeIn {
@@ -321,7 +360,7 @@
         @keyframes slideUp {
             from { 
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to { 
                 opacity: 1;
@@ -329,322 +368,351 @@
             }
         }
         
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #666;
+            font-size: 0.9rem;
+            animation: fadeIn 1s ease-in-out;
         }
         
         @media (max-width: 768px) {
             .container {
-                padding: 10px;
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
             }
             
             .mission-card {
-                padding: 20px;
+                padding: 1.5rem;
             }
             
-            .buttons {
-                flex-direction: column;
-                gap: 10px;
+            .tabs {
+                flex-wrap: wrap;
             }
             
-            .btn {
-                width: 100%;
-                justify-content: center;
+            .tab {
+                margin-bottom: 0.5rem;
             }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="overlay">
-        <div class="container">
-            <header>
-                <h1>Лингвист-Агент</h1>
-                <div class="mission-badge">Миссия: Расшифровка и Перевод</div>
-                <p>Ваша задача - не просто перевести текст, но и расшифровать скрытые смыслы, чтобы миссия была выполнена!</p>
-            </header>
+    <div class="container">
+        <header>
+            <h1>Миссия: Лингвистический Шпион</h1>
+            <p class="subtitle">Разгадайте скрытые смыслы и выполните переводческую миссию!</p>
+        </header>
+        
+        <div class="mission-card">
+            <h2 class="mission-title">Этап 1: Разведка (Анализ текста)</h2>
+            <div class="text-display">
+                <p class="original-text" id="originalText">Loading mission...</p>
+            </div>
+            <button class="hint-btn" id="hintBtn">
+                <i class="fas fa-lightbulb"></i> Показать подсказки
+            </button>
+            <div class="hint-box" id="hintBox">
+                <p><strong>Подозрительные элементы:</strong></p>
+                <ul id="hintList"></ul>
+            </div>
+        </div>
+        
+        <div class="mission-card">
+            <h2 class="mission-title">Этап 2: Буквальный vs Креативный перевод</h2>
             
-            <div class="mission-card">
-                <h2>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
-                    </svg>
-                    Этап 1: Разведка (Анализ текста)
-                </h2>
-                
-                <div class="original-text">
-                    <p id="originalText">The new software update is a game changer, but don't throw in the towel if you can't figure it out right away. It's not rocket science, but it might take some time to get the hang of it.</p>
-                </div>
-                
-                <div class="translation-area">
-                    <div class="translation-section">
-                        <div class="translation-header">
-                            <div class="translation-title">Выпишите "подозрительные" элементы:</div>
-                            <button class="hint-button" onclick="toggleHint('hint1')">Подсказка</button>
-                        </div>
-                        <textarea id="suspiciousElements" placeholder="Идиомы, сленг, игра слов..."></textarea>
-                        <div id="hint1" class="hint-box">
-                            <div class="hint-title">💡 Подсказка:</div>
-                            <p>Обратите внимание на выражения, которые нельзя перевести буквально: "game changer", "throw in the towel", "rocket science", "get the hang of it". Это идиомы и устойчивые выражения.</p>
-                        </div>
-                    </div>
+            <div class="tabs">
+                <button class="tab active" data-tab="literal">Буквальный перевод</button>
+                <button class="tab" data-tab="creative">Креативный перевод</button>
+            </div>
+            
+            <div class="tab-content active" id="literal">
+                <p>Сделайте дословный перевод (как в Google Translate, с возможными ошибками):</p>
+                <textarea id="literalTranslation" placeholder="Введите ваш буквальный перевод здесь..."></textarea>
+            </div>
+            
+            <div class="tab-content" id="creative">
+                <p>Сделайте адаптированный перевод (как для живого человека, с сохранением смысла):</p>
+                <textarea id="creativeTranslation" placeholder="Введите ваш креативный перевод здесь..."></textarea>
+            </div>
+            
+            <div class="audience-selector">
+                <p class="audience-title">Этап 3: Локализация (выберите целевую аудиторию):</p>
+                <div class="audience-options">
+                    <button class="audience-btn" data-audience="teen">Для подростков</button>
+                    <button class="audience-btn" data-audience="business">Для бизнеса</button>
+                    <button class="audience-btn" data-audience="subtitles">Для субтитров</button>
                 </div>
             </div>
             
-            <div class="mission-card">
-                <h2>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                    </svg>
-                    Этап 2: Буквальный vs Креативный перевод
-                </h2>
-                
-                <div class="translation-area">
-                    <div class="translation-section">
-                        <div class="translation-header">
-                            <div class="translation-title">Дословный перевод (как в Google Translate)</div>
-                            <button class="hint-button" onclick="toggleHint('hint2')">Пример</button>
-                        </div>
-                        <textarea id="literalTranslation" placeholder="Введите дословный перевод..."></textarea>
-                        <div id="hint2" class="hint-box">
-                            <div class="hint-title">💡 Пример буквального перевода:</div>
-                            <p>"Новое обновление программного обеспечения это изменение игры, но не бросайте полотенце если вы не можете понять это сразу. Это не ракетная наука, но это может занять некоторое время чтобы получить висение этого."</p>
-                        </div>
-                    </div>
-                    
-                    <div class="translation-section">
-                        <div class="translation-header">
-                            <div class="translation-title">Адаптированный перевод (для живого человека)</div>
-                            <button class="hint-button" onclick="toggleHint('hint3')">Пример</button>
-                        </div>
-                        <textarea id="adaptedTranslation" placeholder="Введите адаптированный перевод..."></textarea>
-                        <div id="hint3" class="hint-box">
-                            <div class="hint-title">💡 Пример адаптированного перевода:</div>
-                            <p>"Новое обновление программного обеспечения — это настоящий прорыв, но не сдавайтесь, если не разберётесь сразу. В этом нет ничего сверхсложного, но потребуется некоторое время, чтобы освоиться."</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mission-card">
-                <h2>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-                    </svg>
-                    Этап 3: Локализация
-                </h2>
-                
-                <div class="translation-area">
-                    <div class="translation-section">
-                        <div class="translation-header">
-                            <div class="translation-title">Выберите целевую аудиторию:</div>
-                        </div>
-                        <div class="localization-options">
-                            <div class="localization-option" onclick="selectAudience(this, 'teen')">Для подростков</div>
-                            <div class="localization-option" onclick="selectAudience(this, 'business')">Для бизнеса</div>
-                            <div class="localization-option" onclick="selectAudience(this, 'subtitles')">Для субтитров</div>
-                        </div>
-                        
-                        <textarea id="localizedTranslation" placeholder="Введите локализованный перевод..." style="margin-top: 20px;"></textarea>
-                        
-                        <div id="hint4" class="hint-box">
-                            <div class="hint-title">💡 Примеры локализации:</div>
-                            <p><strong>Для подростков:</strong> "Этот апдейт — полный вау! Но если чёт не зайдет сразу, не вешай нос. Фигня вопрос, просто нужно время чтобы врубиться."</p>
-                            <p><strong>Для бизнеса:</strong> "Новое обновление программного обеспечения представляет собой значительный качественный скачок, однако не стоит отчаиваться в случае первоначальных затруднений. Несмотря на кажущуюся сложность, процесс освоения не требует значительных временных затрат."</p>
-                            <p><strong>Для субтитров:</strong> "Обновление — прорыв, но если не поймёте сразу — не сдавайтесь. Это несложно, но потребуется время."</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="buttons">
-                <button class="btn btn-secondary" onclick="showErrorExamples()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="8" x2="12" y2="12"></line>
-                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                    </svg>
-                    Примеры ошибок
+            <div class="actions">
+                <button class="btn btn-success" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> Отправить миссию
                 </button>
-                <button class="btn btn-primary" onclick="completeMission()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                    </svg>
-                    Завершить миссию
-                </button>
-            </div>
-            
-            <div id="errorExamples" class="hidden-features">
-                <div class="error-examples">
-                    <h4>Примеры "проваленных миссий":</h4>
-                    <div class="error-item">
-                        <div class="error-original">"It's a piece of cake"</div>
-                        <div class="error-incorrect">"Это кусок пирога" (буквальный перевод)</div>
-                        <div class="error-correct">"Это проще простого" (идиома означает что-то очень легкое)</div>
-                    </div>
-                    <div class="error-item">
-                        <div class="error-original">"I'm feeling under the weather"</div>
-                        <div class="error-incorrect">"Я чувствую себя под погодой"</div>
-                        <div class="error-correct">"Я неважно себя чувствую" (идиома означает плохое самочувствие)</div>
-                    </div>
-                    <div class="error-item">
-                        <div class="error-original">"That costs an arm and a leg"</div>
-                        <div class="error-incorrect">"Это стоит руки и ноги"</div>
-                        <div class="error-correct">"Это стоит бешеных денег" (идиома означает очень высокую цену)</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="missionComplete" class="mission-complete">
-                <h3>Миссия выполнена!</h3>
-                <p>Вы успешно расшифровали и перевели сообщение, адаптировав его для целевой аудитории.</p>
-                <button class="btn btn-primary" onclick="newMission()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                    </svg>
-                    Новая миссия
+                <button class="btn btn-secondary" id="nextBtn" style="display: none;">
+                    <i class="fas fa-forward"></i> Следующая миссия
                 </button>
             </div>
         </div>
+        
+        <div class="error-examples">
+            <h3 class="error-title"><i class="fas fa-exclamation-triangle"></i> Проваленные миссии (разбор ошибок)</h3>
+            <div class="error-item">
+                <p class="error-original">Original: "It's raining cats and dogs"</p>
+                <p class="error-incorrect">Неправильно: "На улице дождь из кошек и собак"</p>
+                <p class="error-correct">Правильно: "Льёт как из ведра"</p>
+            </div>
+            <div class="error-item">
+                <p class="error-original">Original: "He's a couch potato"</p>
+                <p class="error-incorrect">Неправильно: "Он диванная картошка"</p>
+                <p class="error-correct">Правильно: "Он лентяй и домосед"</p>
+            </div>
+            <div class="error-item">
+                <p class="error-original">Original: "That's a piece of cake"</p>
+                <p class="error-incorrect">Неправильно: "Это кусок торта"</p>
+                <p class="error-correct">Правильно: "Это проще простого"</p>
+            </div>
+        </div>
+        
+        <div class="success-message hidden" id="successMessage">
+            <h3><i class="fas fa-check-circle"></i> Миссия выполнена успешно!</h3>
+            <p>Отличная работа, агент! Ваш перевод соответствует всем требованиям.</p>
+            <p>Переходите к следующему заданию или проанализируйте свои результаты.</p>
+        </div>
+        
+        <footer>
+            <p>Лингвистическая миссия &copy; 2023 | Агентский департамент переводов</p>
+        </footer>
     </div>
 
     <script>
-        // Тексты для заданий
+        // База данных с текстами для перевода и подсказками
         const missions = [
             {
-                original: "The new software update is a game changer, but don't throw in the towel if you can't figure it out right away. It's not rocket science, but it might take some time to get the hang of it.",
-                hints: {
-                    suspicious: "Обратите внимание на выражения, которые нельзя перевести буквально: 'game changer', 'throw in the towel', 'rocket science', 'get the hang of it'. Это идиомы и устойчивые выражения.",
-                    literal: "'Новое обновление программного обеспечения это изменение игры, но не бросайте полотенце если вы не можете понять это сразу. Это не ракетная наука, но это может занять некоторое время чтобы получить висение этого.'",
-                    adapted: "'Новое обновление программного обеспечения — это настоящий прорыв, но не сдавайтесь, если не разберётесь сразу. В этом нет ничего сверхсложного, но потребуется некоторое время, чтобы освоиться.'",
-                    localized: {
-                        teen: "'Этот апдейт — полный вау! Но если чёт не зайдет сразу, не вешай нос. Фигня вопрос, просто нужно время чтобы врубиться.'",
-                        business: "'Новое обновление программного обеспечения представляет собой значительный качественный скачок, однако не стоит отчаиваться в случае первоначальных затруднений. Несмотря на кажущуюся сложность, процесс освоения не требует значительных временных затрат.'",
-                        subtitles: "'Обновление — прорыв, но если не поймёте сразу — не сдавайтесь. Это несложно, но потребуется время.'"
-                    }
-                }
+                text: "Break a leg on your performance tonight!",
+                hints: [
+                    "Идиома: 'Break a leg' — это пожелание удачи, особенно в театральной среде",
+                    "Фразовый глагол: 'break' здесь не означает буквально 'ломать'",
+                    "Контекст: речь идёт о выступлении (performance)"
+                ],
+                literalExample: "Сломай ногу на твоём выступлении сегодня вечером!",
+                creativeExample: "Ни пуха ни пера на твоём выступлении сегодня!"
             },
             {
-                original: "Break a leg! I know you've been burning the midnight oil to prepare for this presentation. Just remember, the ball is in your court now.",
-                hints: {
-                    suspicious: "Ищите идиомы: 'Break a leg', 'burning the midnight oil', 'the ball is in your court'.",
-                    literal: "'Сломай ногу! Я знаю, ты сжигал полуночное масло чтобы подготовиться к этой презентации. Просто помни, мяч на твоей стороне корта сейчас.'",
-                    adapted: "'Ни пуха ни пера! Я знаю, ты работал дни и ночи, готовясь к этой презентации. Теперь всё в твоих руках.'",
-                    localized: {
-                        teen: "'Не сфейлись! Знаю, ты пахал как проклятый, готовясь к этому. Теперь всё на тебе, бро.'",
-                        business: "'Желаю успеха! Я в курсе, сколько сил вы вложили в подготовку этой презентации. Теперь результат зависит только от вас.'",
-                        subtitles: "'Удачи! Ты много работал над презентацией. Теперь всё зависит от тебя.'"
-                    }
-                }
+                text: "This new software is a game changer for our industry.",
+                hints: [
+                    "Идиома: 'game changer' — означает нечто, что кардинально меняет правила игры",
+                    "Метафора: сравнение с игрой (game)",
+                    "Контекст: речь идёт о программном обеспечении и его влиянии на индустрию"
+                ],
+                literalExample: "Это новое программное обеспечение это менятель игры для нашей индустрии.",
+                creativeExample: "Это новое ПО кардинально изменит нашу отрасль."
             },
             {
-                original: "This startup is the real McCoy - they've hit the ground running and are already turning heads in the industry. It's clear they're not just a flash in the pan.",
-                hints: {
-                    suspicious: "Идиомы: 'the real McCoy', 'hit the ground running', 'turning heads', 'flash in the pan'.",
-                    literal: "'Этот стартап настоящий Маккой - они ударили по земле бегом и уже поворачивают головы в индустрии. Ясно что они не просто вспышка в сковороде.'",
-                    adapted: "'Этот стартап действительно стоящий - они сразу показали отличные результаты и уже привлекают внимание в отрасли. Очевидно, что это не временное явление.'",
-                    localized: {
-                        teen: "'Эти ребята реально крутые - сразу ворвались в игру и все уже на них пялятся. Видно, что не однодневки.'",
-                        business: "'Данный стартап демонстрирует исключительную эффективность - с первых дней работы компания показывает выдающиеся результаты и привлекает внимание профессионального сообщества. Очевидно, мы наблюдаем устойчивую тенденцию, а не временный успех.'",
-                        subtitles: "'Этот стартап действительно сильный - сразу показал результат и привлёк внимание. Это надолго.'"
-                    }
-                }
+                text: "I'm feeling under the weather today, so I'll work from home.",
+                hints: [
+                    "Идиома: 'under the weather' — означает плохое самочувствие, недомогание",
+                    "Фразовый глагол: 'work from' — работать откуда-то",
+                    "Контекст: объяснение причины работы из дома"
+                ],
+                literalExample: "Я чувствую себя под погодой сегодня, поэтому я буду работать из дома.",
+                creativeExample: "Я сегодня неважно себя чувствую, поэтому поработаю из дома."
+            },
+            {
+                text: "Let's table this discussion for now and circle back to it next week.",
+                hints: [
+                    "Деловой жаргон: 'table' (в американском английском) — отложить обсуждение",
+                    "Деловой жаргон: 'circle back' — вернуться к теме позже",
+                    "Контекст: перенос обсуждения на более поздний срок"
+                ],
+                literalExample: "Давайте поставим этот разговор на стол сейчас и обведём обратно к нему на следующей неделе.",
+                creativeExample: "Давайте пока отложим это обсуждение и вернёмся к нему на следующей неделе."
+            },
+            {
+                text: "The marketing campaign went viral and broke the internet!",
+                hints: [
+                    "Сленг: 'went viral' — стал очень популярным в интернете",
+                    "Гипербола: 'broke the internet' — преувеличение, означающее огромный успех",
+                    "Контекст: речь о маркетинговой кампании и её успехе"
+                ],
+                literalExample: "Маркетинговая кампания пошла вирусной и сломала интернет!",
+                creativeExample: "Рекламная кампания стала вирусной и взорвала интернет!"
             }
         ];
         
+        // Текущая миссия
         let currentMission = 0;
+        let selectedAudience = null;
         
-        // Показать/скрыть подсказки
-        function toggleHint(hintId) {
-            const hint = document.getElementById(hintId);
-            hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
-        }
+        // DOM элементы
+        const originalTextEl = document.getElementById('originalText');
+        const hintBtn = document.getElementById('hintBtn');
+        const hintBox = document.getElementById('hintBox');
+        const hintList = document.getElementById('hintList');
+        const literalTranslation = document.getElementById('literalTranslation');
+        const creativeTranslation = document.getElementById('creativeTranslation');
+        const submitBtn = document.getElementById('submitBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const successMessage = document.getElementById('successMessage');
+        const audienceBtns = document.querySelectorAll('.audience-btn');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
         
-        // Выбор аудитории для локализации
-        function selectAudience(element, audience) {
-            document.querySelectorAll('.localization-option').forEach(opt => {
-                opt.classList.remove('active');
-            });
-            element.classList.add('active');
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMission(currentMission);
             
-            // Показать пример для выбранной аудитории
-            const hintBox = document.getElementById('hint4');
-            hintBox.style.display = 'block';
-        }
-        
-        // Показать примеры ошибок
-        function showErrorExamples() {
-            const errorExamples = document.getElementById('errorExamples');
-            errorExamples.style.display = errorExamples.style.display === 'block' ? 'none' : 'block';
-        }
-        
-        // Завершить миссию
-        function completeMission() {
-            document.getElementById('missionComplete').style.display = 'block';
-            window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: 'smooth'
+            // Обработчики событий
+            hintBtn.addEventListener('click', toggleHints);
+            submitBtn.addEventListener('click', submitMission);
+            nextBtn.addEventListener('click', nextMission);
+            
+            // Обработчики для аудитории
+            audienceBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    audienceBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    selectedAudience = btn.dataset.audience;
+                });
             });
+            
+            // Обработчики для табов
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    const tabId = tab.dataset.tab;
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === tabId) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+        });
+        
+        // Загрузка миссии
+        function loadMission(index) {
+            const mission = missions[index];
+            originalTextEl.textContent = mission.text;
+            
+            // Очистка подсказок
+            hintList.innerHTML = '';
+            mission.hints.forEach(hint => {
+                const li = document.createElement('li');
+                li.textContent = hint;
+                hintList.appendChild(li);
+            });
+            
+            // Сброс полей
+            literalTranslation.value = '';
+            creativeTranslation.value = '';
+            hintBox.classList.remove('show');
+            
+            // Сброс аудитории
+            audienceBtns.forEach(btn => btn.classList.remove('active'));
+            selectedAudience = null;
+            
+            // Скрытие сообщения об успехе
+            successMessage.classList.add('hidden');
+            nextBtn.style.display = 'none';
+            submitBtn.style.display = 'inline-flex';
         }
         
-        // Новая миссия
-        function newMission() {
+        // Переключение подсказок
+        function toggleHints() {
+            hintBox.classList.toggle('show');
+            hintBtn.innerHTML = hintBox.classList.contains('show') ? 
+                '<i class="fas fa-lightbulb"></i> Скрыть подсказки' : 
+                '<i class="fas fa-lightbulb"></i> Показать подсказки';
+        }
+        
+        // Отправка миссии
+        function submitMission() {
+            if (!literalTranslation.value || !creativeTranslation.value) {
+                alert('Пожалуйста, заполните оба варианта перевода!');
+                return;
+            }
+            
+            if (!selectedAudience) {
+                alert('Пожалуйста, выберите целевую аудиторию для локализации!');
+                return;
+            }
+            
+            // Показываем анимацию загрузки
+            submitBtn.innerHTML = '<i class="fas fa-spinner loading"></i> Отправка...';
+            submitBtn.disabled = true;
+            
+            // Имитация отправки на сервер
+            setTimeout(() => {
+                // Успешное завершение
+                submitBtn.style.display = 'none';
+                nextBtn.style.display = 'inline-flex';
+                successMessage.classList.remove('hidden');
+                createConfetti();
+                
+                // Восстанавливаем кнопку
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить миссию';
+                submitBtn.disabled = false;
+            }, 1500);
+        }
+        
+        // Следующая миссия
+        function nextMission() {
             currentMission = (currentMission + 1) % missions.length;
-            const mission = missions[currentMission];
+            loadMission(currentMission);
+        }
+        
+        // Создание конфетти
+        function createConfetti() {
+            const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'];
             
-            // Обновить текст задания
-            document.getElementById('originalText').textContent = mission.original;
-            
-            // Обновить подсказки
-            document.getElementById('hint1').innerHTML = `
-                <div class="hint-title">💡 Подсказка:</div>
-                <p>${mission.hints.suspicious}</p>
-            `;
-            
-            document.getElementById('hint2').innerHTML = `
-                <div class="hint-title">💡 Пример буквального перевода:</div>
-                <p>${mission.hints.literal}</p>
-            `;
-            
-            document.getElementById('hint3').innerHTML = `
-                <div class="hint-title">💡 Пример адаптированного перевода:</div>
-                <p>${mission.hints.adapted}</p>
-            `;
-            
-            document.getElementById('hint4').innerHTML = `
-                <div class="hint-title">💡 Примеры локализации:</div>
-                <p><strong>Для подростков:</strong> ${mission.hints.localized.teen}</p>
-                <p><strong>Для бизнеса:</strong> ${mission.hints.localized.business}</p>
-                <p><strong>Для субтитров:</strong> ${mission.hints.localized.subtitles}</p>
-            `;
-            
-            // Очистить поля ввода
-            document.getElementById('suspiciousElements').value = '';
-            document.getElementById('literalTranslation').value = '';
-            document.getElementById('adaptedTranslation').value = '';
-            document.getElementById('localizedTranslation').value = '';
-            
-            // Сбросить выбор аудитории
-            document.querySelectorAll('.localization-option').forEach(opt => {
-                opt.classList.remove('active');
-            });
-            
-            // Скрыть завершение миссии и примеры ошибок
-            document.getElementById('missionComplete').style.display = 'none';
-            document.getElementById('errorExamples').style.display = 'none';
-            
-            // Скрыть все подсказки
-            document.querySelectorAll('.hint-box').forEach(hint => {
-                hint.style.display = 'none';
-            });
-            
-            // Прокрутить вверх
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = confetti.style.width;
+                confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                document.body.appendChild(confetti);
+                
+                // Удаляем конфетти после анимации
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
         }
     </script>
 </body>
