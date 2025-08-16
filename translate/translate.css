@@ -140,6 +140,7 @@ header::after {
     pointer-events: auto;
 }
 
+
 .phase.completed {
     border-left-color: var(--color-success);
 }
