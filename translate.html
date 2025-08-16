@@ -6,33 +6,24 @@
     <title>Агент-Лингвист: Миссия по переводу</title>
     <style>
         :root {
-            /* Новая цветовая палитра */
-            --color-primary: #A2AF9B;     /* Главный цвет */
-            --color-primary-hover: #8F9A85; /* Затемненный главный */
-            --color-secondary: #ecbf8c;   /* Вторичный цвет */
-            --color-accent: #C8A88F;      /* Акцентный цвет */
-            --color-success: #8AA38B;     /* Успех */
-            --color-warning: #C8B28F;     /* Предупреждение */
-            --color-info: #9BAFA2;        /* Информация */
-            
-            /* Текст */
-            --color-text: #788372;        /* Основной текст */
-            --color-text-muted: #777777;  /* Приглушенный текст */
-            --color-text-dark: #A2AF9B;   /* Темный текст */
-            
-            /* Фоны */
-            --color-bg: #ccd1c9;          /* Основной фон */
-            --color-bg-light: #FFFFFF;    /* Светлый фон */
-            --color-bg-lighter: #EEEEEE;  /* Очень светлый фон */
+            --color-primary: #A2AF9B;
+            --color-primary-hover: #8F9A85;
+            --color-secondary: #ecbf8c;
+            --color-accent: #C8A88F;
+            --color-success: #8AA38B;
+            --color-warning: #C8B28F;
+            --color-info: #9BAFA2;
+            --color-text: #788372;
+            --color-text-muted: #777777;
+            --color-text-dark: #A2AF9B;
+            --color-bg: #ccd1c9;
+            --color-bg-light: #FFFFFF;
+            --color-bg-lighter: #EEEEEE;
             --color-bg-transparent: rgba(250, 249, 238, 0.95);
-            
-            /* Границы */
             --border-radius: 12px;
             --border-radius-sm: 8px;
             --border-width: 1px;
             --border-color: rgba(162, 175, 155, 0.3);
-            
-            /* Тени */
             --shadow-sm: 0 1px 3px 0 rgba(162, 175, 155, 0.1);
             --shadow: 0 4px 6px -1px rgba(162, 175, 155, 0.1), 
                       0 2px 4px -1px rgba(162, 175, 155, 0.06);
@@ -40,14 +31,11 @@
                          0 4px 6px -2px rgba(162, 175, 155, 0.05);
             --shadow-lg: 0 20px 25px -5px rgba(162, 175, 155, 0.1), 
                          0 10px 10px -5px rgba(162, 175, 155, 0.04);
-            
-            /* Анимации */
             --transition-fast: 0.15s;
             --transition-normal: 0.3s;
             --transition-slow: 0.5s;
         }
         
-        /* Базовые стили */
         * {
             margin: 0;
             padding: 0;
@@ -64,9 +52,8 @@
             -webkit-font-smoothing: antialiased;
         }
         
-        /* Контейнер */
         .container {
-            max-width: 1200px;
+            max-width: 1800px;
             margin: 0 auto;
             background: var(--color-bg-transparent);
             backdrop-filter: blur(12px);
@@ -76,9 +63,11 @@
             position: relative;
             overflow: hidden;
             border: var(--border-width) solid var(--border-color);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
         }
         
-        /* Заголовки */
         h1, h2, h3 {
             font-weight: 700;
             line-height: 1.2;
@@ -109,18 +98,17 @@
             color: var(--color-primary);
         }
         
-        /* Текст */
         p {
             margin-bottom: 1rem;
             color: var(--color-text);
         }
         
-        /* Шапка */
         header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.5rem;
             position: relative;
             padding-bottom: 1.5rem;
+            grid-column: 1 / -1;
         }
         
         header::after {
@@ -142,8 +130,10 @@
             color: var(--color-text);
         }
         
-        /* Блоки этапов */
+        /* Общий стиль для всех этапов */
         .phase {
+            width: 900px;
+            height: 550px;
             background: var(--color-bg-light);
             border-radius: var(--border-radius);
             padding: 1.5rem;
@@ -151,6 +141,17 @@
             border-left: 4px solid var(--color-primary);
             box-shadow: var(--shadow-md);
             transition: all var(--transition-normal) ease;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        .phase.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .phase.completed {
+            border-left-color: var(--color-success);
         }
         
         .phase:hover {
@@ -182,7 +183,6 @@
             flex-shrink: 0;
         }
         
-        /* Контейнеры текста */
         .text-container {
             background: #eedcc8;
             border-radius: var(--border-radius-sm);
@@ -199,7 +199,6 @@
             font-style: italic;
         }
         
-        /* Подозрительные элементы */
         .suspicious {
             background: rgba(200, 168, 143, 0.15);
             border-bottom: 2px dashed var(--color-accent);
@@ -214,7 +213,6 @@
             background: rgba(200, 168, 143, 0.3);
         }
         
-        /* Подсказки */
         .tooltip {
             position: absolute;
             background: var(--color-bg-light);
@@ -231,7 +229,6 @@
             border: var(--border-width) solid var(--border-color);
         }
         
-        /* Поля ввода */
         textarea, input {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -256,7 +253,6 @@
             box-shadow: 0 0 0 3px rgba(162, 175, 155, 0.2);
         }
         
-        /* Контейнеры переводов */
         .translation-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -278,7 +274,6 @@
             font-weight: 600;
         }
         
-        /* Выбор аудитории */
         .audience-selector {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -318,12 +313,12 @@
             color: var(--color-text);
         }
         
-        /* Кнопки */
         .buttons {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             margin-top: 1.5rem;
             gap: 1rem;
+            grid-column: 1 / -1;
         }
         
         button {
@@ -354,28 +349,21 @@
         
         button.secondary {
             background: var(--color-secondary);
-            
         }
         
         button.secondary:hover {
             background: #d0ac83;
         }
         
-        #nextPhase, #completeMission {
+        #completeMission {
             background: var(--color-success);
         }
         
-        #nextPhase:hover, #completeMission:hover {
+        #completeMission:hover {
             background: #7B8F7C;
             box-shadow: 0 4px 12px rgba(138, 163, 139, 0.3);
         }
         
-        /* Скрытые элементы */
-        .hidden {
-            display: none !important;
-        }
-        
-        /* Бейдж агента */
         .agent-badge {
             position: absolute;
             top: 1.5rem;
@@ -390,7 +378,6 @@
             gap: 0.5rem;
         }
         
-        /* Сообщение о завершении */
         .completed-message {
             text-align: center;
             padding: 2rem;
@@ -398,9 +385,13 @@
             border-radius: var(--border-radius);
             border: var(--border-width) solid rgba(138, 163, 139, 0.3);
             margin-top: 1.5rem;
+            grid-column: 1 / -1;
         }
         
-        /* Подсказки */
+        .hidden {
+            display: none !important;
+        }
+        
         .hint {
             background: rgba(200, 178, 143, 0.1);
             border-left: 4px solid var(--color-warning);
@@ -414,7 +405,83 @@
             color: var(--color-warning);
         }
         
-        /* Адаптивность */
+        .phase-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .phase {
+            margin-bottom: 0;
+        }
+        
+        .phase-lock {
+            position: relative;
+        }
+        
+        .phase-lock::after {
+            content: '🔒 Сначала завершите предыдущий этап';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--color-text);
+            border-radius: var(--border-radius);
+            z-index: 10;
+        }
+        
+        .progress-tracker {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+        
+        .progress-step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--color-bg-lighter);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--color-text-muted);
+            position: relative;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+        
+        .progress-step.active {
+            background: var(--color-primary);
+            color: white;
+        }
+        
+        .progress-step.completed {
+            background: var(--color-success);
+            color: white;
+        }
+        
+        .progress-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 100%;
+            width: 20px;
+            height: 2px;
+            background: var(--color-bg-lighter);
+        }
+        
+        .progress-step.active:not(:last-child)::after,
+        .progress-step.completed:not(:last-child)::after {
+            background: var(--color-primary);
+        }
+        
         @media (max-width: 768px) {
             body {
                 padding: 1rem;
@@ -441,12 +508,20 @@
             button {
                 width: 100%;
             }
+            
+            .phase-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .phase {
+                width: auto;
+                height: auto;
+            }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Остальная HTML-разметка остается без изменений -->
     <div class="container">
         <div class="agent-badge">
             <span class="badge-icon">🕵️</span> Агент-Лингвист
@@ -457,96 +532,107 @@
             <p class="mission-statement">Вы — агент-лингвист, получивший зашифрованное сообщение. Ваша задача: не просто перевести его, но и расшифровать скрытые смыслы!</p>
         </header>
         
-        <div class="phase" id="phase1">
-            <div class="phase-title">
-                <div class="phase-number">1</div>
-                <h2>Этап 1: Разведка (Анализ текста)</h2>
-            </div>
-            
+        <!-- Трекер прогресса -->
+        <div class="progress-tracker">
+            <div class="progress-step active" data-phase="1">1</div>
+            <div class="progress-step" data-phase="2">2</div>
+            <div class="progress-step" data-phase="3">3</div>
+        </div>
+        
+        <!-- Новый блок с текстом задания - расположен ВЫШЕ этапов -->
+        <section class="source-text-section">
+            <h2>
+                <span class="icon">📝</span>
+                Исходный текст задания
+            </h2>
             <div class="text-container">
                 <p class="original-text" id="sourceText"></p>
             </div>
-            
-            <div class="hint">
-                <strong>Подсказка:</strong> Выпишите все «подозрительные» элементы: идиомы, сленг, игру слов. 
-                Наведите курсор на выделенные фрагменты для дополнительной информации.
-            </div>
-            
-            <label for="suspiciousElements">Обнаруженные подозрительные элементы:</label>
-            <textarea id="suspiciousElements" placeholder="Введите элементы, которые кажутся вам подозрительными..."></textarea>
-            
-            <div class="buttons">
-                <div></div>
-                <button id="toPhase2">Перейти к Этапу 2 →</button>
-            </div>
-        </div>
+        </section>
         
-        <div class="phase hidden" id="phase2">
-            <div class="phase-title">
-                <div class="phase-number">2</div>
-                <h2>Этап 2: Буквальный vs Креативный перевод</h2>
-            </div>
-            
-            <div class="hint">
-                <strong>Подсказка:</strong> Создайте два варианта перевода - дословный (как в Google Translate) и адаптированный (для живого человека).
-            </div>
-            
-            <div class="translation-container">
-                <div class="translation-box">
-                    <div class="translation-title">Дословный перевод:</div>
-                    <textarea id="literalTranslation" placeholder="Ваш дословный перевод с сохранением структуры оригинала..."></textarea>
+        <div class="phase-container">
+            <div class="phase active" id="phase1">
+                <div class="phase-title">
+                    <div class="phase-number">1</div>
+                    <h2>Этап 1: Разведка (Анализ текста)</h2>
                 </div>
                 
-                <div class="translation-box">
-                    <div class="translation-title">Адаптированный перевод:</div>
-                    <textarea id="creativeTranslation" placeholder="Ваш креативный перевод с сохранением смысла..."></textarea>
+                <div class="hint">
+                    <strong>Подсказка:</strong> Выпишите все «подозрительные» элементы: идиомы, сленг, игру слов. 
+                    Наведите курсор на выделенные фрагменты в исходном тексте для дополнительной информации.
                 </div>
+                
+                <label for="suspiciousElements">Обнаруженные подозрительные элементы:</label>
+                <textarea id="suspiciousElements" placeholder="Введите элементы, которые кажутся вам подозрительными..."></textarea>
+                
+                <button class="complete-phase" data-phase="1">Завершить этап</button>
             </div>
             
-            <div class="buttons">
-                <button class="secondary" id="backToPhase1">← Назад к Этапу 1</button>
-                <button id="toPhase3">Перейти к Этапу 3 →</button>
+            <div class="phase" id="phase2">
+                <div class="phase-title">
+                    <div class="phase-number">2</div>
+                    <h2>Этап 2: Буквальный vs Креативный перевод</h2>
+                </div>
+                
+                <div class="hint">
+                    <strong>Подсказка:</strong> Создайте два варианта перевода - дословный (как в Google Translate) и адаптированный (для живого человека).
+                </div>
+                
+                <div class="translation-container">
+                    <div class="translation-box">
+                        <div class="translation-title">Дословный перевод:</div>
+                        <textarea id="literalTranslation" placeholder="Ваш дословный перевод с сохранением структуры оригинала..."></textarea>
+                    </div>
+                    
+                    <div class="translation-box">
+                        <div class="translation-title">Адаптированный перевод:</div>
+                        <textarea id="creativeTranslation" placeholder="Ваш креативный перевод с сохранением смысла..."></textarea>
+                    </div>
+                </div>
+                
+                <button class="complete-phase" data-phase="2">Завершить этап</button>
+            </div>
+            
+            <div class="phase" id="phase3">
+                <div class="phase-title">
+                    <div class="phase-number">3</div>
+                    <h2>Этап 3: Локализация</h2>
+                </div>
+                
+                <div class="hint">
+                    <strong>Подсказка:</strong> Выберите целевую аудиторию и адаптируйте перевод соответствующим образом.
+                </div>
+                
+                <div class="audience-selector" id="audienceSelector">
+                    <div class="audience-option" data-audience="teen">
+                        <div class="audience-title">👨‍🎓 Для подростков</div>
+                        <div class="audience-desc">Используйте мемы, сленг и неформальный стиль</div>
+                    </div>
+                    <div class="audience-option" data-audience="business">
+                        <div class="audience-title">💼 Для бизнеса</div>
+                        <div class="audience-desc">Формальный, строгий язык, профессиональная лексика</div>
+                    </div>
+                    <div class="audience-option" data-audience="subtitles">
+                        <div class="audience-title">🎬 Для субтитров</div>
+                        <div class="audience-desc">Кратко, с сохранением эмоций и смысла</div>
+                    </div>
+                </div>
+                
+                <label for="localizedTranslation">Локализованный перевод:</label>
+                <textarea id="localizedTranslation" placeholder="Введите ваш адаптированный перевод для выбранной аудитории..."></textarea>
+                
+                <button class="complete-phase" data-phase="3">Завершить этап</button>
             </div>
         </div>
         
-        <div class="phase hidden" id="phase3">
-            <div class="phase-title">
-                <div class="phase-number">3</div>
-                <h2>Этап 3: Локализация</h2>
-            </div>
-            
-            <div class="hint">
-                <strong>Подсказка:</strong> Выберите целевую аудиторию и адаптируйте перевод соответствующим образом.
-            </div>
-            
-            <div class="audience-selector" id="audienceSelector">
-                <div class="audience-option" data-audience="teen">
-                    <div class="audience-title">👨‍🎓 Для подростков</div>
-                    <div class="audience-desc">Используйте мемы, сленг и неформальный стиль</div>
-                </div>
-                <div class="audience-option" data-audience="business">
-                    <div class="audience-title">💼 Для бизнеса</div>
-                    <div class="audience-desc">Формальный, строгий язык, профессиональная лексика</div>
-                </div>
-                <div class="audience-option" data-audience="subtitles">
-                    <div class="audience-title">🎬 Для субтитров</div>
-                    <div class="audience-desc">Кратко, с сохранением эмоций и смысла</div>
-                </div>
-            </div>
-            
-            <label for="localizedTranslation">Локализованный перевод:</label>
-            <textarea id="localizedTranslation" placeholder="Введите ваш адаптированный перевод для выбранной аудитории..."></textarea>
-            
-            <div class="buttons">
-                <button class="secondary" id="backToPhase2">← Назад к Этапу 2</button>
-                <button id="completeMission">Завершить миссию!</button>
-            </div>
+        <div class="buttons">
+            <button id="completeMission" class="hidden">Завершить миссию!</button>
+            <button id="newMission" class="secondary">Получить новое задание</button>
         </div>
         
         <div class="completed-message hidden" id="completionMessage">
             <h2>Миссия выполнена успешно! 🎉</h2>
             <p>Ваши переводы сохранены в архиве. Готовы к следующему заданию?</p>
-            <button id="newMission">Получить новое задание</button>
         </div>
     </div>
     
@@ -594,23 +680,14 @@
                 ],
                 literal: "Не считай своих цыплят прежде, чем они вылупились. Сделка еще не подписана, так что давайте не прыгать из пушки.",
                 creative: "Не стоит строить планы заранее. Сделка еще не подписана, так что не будем торопиться."
-            },
-            {
-                id: 5,
-                content: "His explanation was clear as mud. I think he's beating around the bush instead of addressing the real issue.",
-                suspicious: [
-                    { phrase: "clear as mud", hint: "Ирония: Совершенно непонятно (дословно 'ясно как грязь')" },
-                    { phrase: "beating around the bush", hint: "Идиома: Ходить вокруг да около" }
-                ],
-                literal: "Его объяснение было ясным как грязь. Я думаю, он бьет вокруг куста вместо того, чтобы обратиться к реальной проблеме.",
-                creative: "Его объяснение было совершенно непонятным. Думаю, он ходит вокруг да около, вместо того чтобы решать реальную проблему."
             }
         ];
         
         // Текущее состояние приложения
-        let currentPhase = 1;
         let currentTextIndex = 0;
         let selectedAudience = null;
+        let currentPhase = 1;
+        let completedPhases = [];
         
         // DOM элементы
         const phase1 = document.getElementById('phase1');
@@ -619,12 +696,15 @@
         const completionMessage = document.getElementById('completionMessage');
         const sourceTextElement = document.getElementById('sourceText');
         const tooltip = document.getElementById('tooltip');
+        const progressSteps = document.querySelectorAll('.progress-step');
+        const completeMissionBtn = document.getElementById('completeMission');
         
         // Инициализация приложения
         function initApp() {
             loadRandomText();
             setupEventListeners();
             setupTooltips();
+            updatePhaseVisibility();
         }
         
         // Загрузка случайного текста
@@ -651,6 +731,116 @@
             if (selectedAudience) {
                 selectedAudience.classList.remove('selected');
                 selectedAudience = null;
+            }
+            
+            // Сброс прогресса
+            currentPhase = 1;
+            completedPhases = [];
+            updateProgressTracker();
+            updatePhaseVisibility();
+            
+            // Скрываем сообщение о завершении
+            completionMessage.classList.add('hidden');
+            completeMissionBtn.classList.add('hidden');
+        }
+        
+        // Обновление видимости этапов
+        function updatePhaseVisibility() {
+            // Все этапы неактивны по умолчанию
+            document.querySelectorAll('.phase').forEach(phase => {
+                phase.classList.remove('active', 'completed');
+                phase.style.opacity = '0.5';
+                phase.style.pointerEvents = 'none';
+            });
+            
+            // Текущий этап активен
+            const currentPhaseElement = document.getElementById(`phase${currentPhase}`);
+            if (currentPhaseElement) {
+                currentPhaseElement.classList.add('active');
+                currentPhaseElement.style.opacity = '1';
+                currentPhaseElement.style.pointerEvents = 'auto';
+            }
+            
+            // Завершенные этапы помечаем
+            completedPhases.forEach(phaseNum => {
+                const phaseElement = document.getElementById(`phase${phaseNum}`);
+                if (phaseElement) {
+                    phaseElement.classList.add('completed');
+                }
+            });
+            
+            // Показываем кнопку завершения миссии, если все этапы выполнены
+            if (completedPhases.length === 3) {
+                completeMissionBtn.classList.remove('hidden');
+            } else {
+                completeMissionBtn.classList.add('hidden');
+            }
+        }
+        
+        // Обновление трекера прогресса
+        function updateProgressTracker() {
+            progressSteps.forEach(step => {
+                const phaseNum = parseInt(step.getAttribute('data-phase'));
+                step.classList.remove('active', 'completed');
+                
+                if (phaseNum === currentPhase) {
+                    step.classList.add('active');
+                } else if (completedPhases.includes(phaseNum)) {
+                    step.classList.add('completed');
+                }
+            });
+        }
+        
+        // Переход к следующему этапу
+        function goToNextPhase() {
+            if (!completedPhases.includes(currentPhase)) {
+                completedPhases.push(currentPhase);
+            }
+            
+            if (currentPhase < 3) {
+                currentPhase++;
+                updatePhaseVisibility();
+                updateProgressTracker();
+                
+                // Прокрутка к текущему этапу
+                document.getElementById(`phase${currentPhase}`).scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+        
+        // Переход к конкретному этапу
+        function goToPhase(phaseNum) {
+            // Можно переходить только к завершенным этапам или следующему после последнего завершенного
+            const maxAvailablePhase = completedPhases.length > 0 ? Math.max(...completedPhases) + 1 : 1;
+            
+            if (phaseNum <= maxAvailablePhase && phaseNum >= 1) {
+                currentPhase = phaseNum;
+                updatePhaseVisibility();
+                updateProgressTracker();
+                
+                // Прокрутка к текущему этапу
+                document.getElementById(`phase${currentPhase}`).scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+        
+        // Проверка заполнения этапа
+        function validatePhase(phaseNum) {
+            switch(phaseNum) {
+                case 1:
+                    return document.getElementById('suspiciousElements').value.trim() !== '';
+                case 2:
+                    return document.getElementById('literalTranslation').value.trim() !== '' && 
+                           document.getElementById('creativeTranslation').value.trim() !== '';
+                case 3:
+                    return document.getElementById('localizedTranslation').value.trim() !== '' && 
+                           selectedAudience !== null;
+                default:
+                    return false;
             }
         }
         
@@ -691,31 +881,6 @@
         
         // Настройка обработчиков событий
         function setupEventListeners() {
-            // Навигация по этапам
-            document.getElementById('toPhase2').addEventListener('click', () => {
-                currentPhase = 2;
-                phase1.classList.add('hidden');
-                phase2.classList.remove('hidden');
-            });
-            
-            document.getElementById('toPhase3').addEventListener('click', () => {
-                currentPhase = 3;
-                phase2.classList.add('hidden');
-                phase3.classList.remove('hidden');
-            });
-            
-            document.getElementById('backToPhase1').addEventListener('click', () => {
-                currentPhase = 1;
-                phase2.classList.add('hidden');
-                phase1.classList.remove('hidden');
-            });
-            
-            document.getElementById('backToPhase2').addEventListener('click', () => {
-                currentPhase = 2;
-                phase3.classList.add('hidden');
-                phase2.classList.remove('hidden');
-            });
-            
             // Выбор аудитории
             document.querySelectorAll('.audience-option').forEach(option => {
                 option.addEventListener('click', function() {
@@ -727,18 +892,38 @@
                 });
             });
             
+            // Завершение этапа
+            document.querySelectorAll('.complete-phase').forEach(button => {
+                button.addEventListener('click', function() {
+                    const phaseNum = parseInt(this.getAttribute('data-phase'));
+                    
+                    if (!validatePhase(phaseNum)) {
+                        alert('Пожалуйста, заполните все необходимые поля перед завершением этапа!');
+                        return;
+                    }
+                    
+                    goToNextPhase();
+                });
+            });
+            
             // Завершение миссии
             document.getElementById('completeMission').addEventListener('click', () => {
-                phase3.classList.add('hidden');
                 completionMessage.classList.remove('hidden');
+                completionMessage.scrollIntoView({ behavior: 'smooth' });
             });
             
             // Новая миссия
             document.getElementById('newMission').addEventListener('click', () => {
-                completionMessage.classList.add('hidden');
-                phase1.classList.remove('hidden');
                 loadRandomText();
-                currentPhase = 1;
+                document.body.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Клик по шагам прогресса
+            progressSteps.forEach(step => {
+                step.addEventListener('click', function() {
+                    const phaseNum = parseInt(this.getAttribute('data-phase'));
+                    goToPhase(phaseNum);
+                });
             });
         }
         
