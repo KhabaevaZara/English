@@ -376,6 +376,126 @@
                 border-color: var(--dark);
             }
         }
+        .instructions {
+            background-color: var(--white);
+            max-width: 850px;
+            margin: 20px auto;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .instructions.show {
+            display: block;
+        }
+
+        .instructions h2 {
+            color: var(--dark);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+        }
+
+        .instructions p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .instructions ol {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 15px;
+            line-height: 1.5;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .instructions li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+        }
+
+        .instructions .highlight {
+            background-color: var(--accent);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .instructions .note {
+            background-color: var(--light);
+            border-left: 4px solid var(--secondary);
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .instructions {
+                padding: 20px 15px;
+            }
+            
+            .instructions h2 {
+                font-size: 1.5rem;
+            }
+            
+            .instructions p, .instructions li {
+                font-size: 1rem;
+            }
+        }
+
+        /* Help button styles */
+        .help-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            color: var(--white);
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .help-btn:hover {
+            background-color: var(--dark);
+            transform: scale(1.1);
+        }
+
+        .help-btn i {
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .help-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -417,7 +537,35 @@
             </div>
         </div>
     </nav>
-     
+
+    <!-- Help button -->
+    <button class="help-btn" id="helpBtn" title="Показать инструкцию">
+        <i class="fas fa-question"></i>
+    </button>
+
+    <!-- Instructions section -->
+    <div class="instructions" id="instructions">
+        <h2>Как играть в Виселицу</h2>
+        <p>Игра "Виселица" (или "Hangman") - это словесная игра, в которой один игрок загадывает слово, а другой пытается его угадать, называя по одной букве за раз. Если буква есть в слове, она открывается на соответствующих местах, если нет - рисуется часть тела виселицы.</p>
+        
+        <p>Цель игрока - угадать слово до того, как будет нарисована вся виселица (обычно 7-10 попыток).</p>
+        
+        <ol>
+            <li><span class="highlight">Загадывание слова:</span> Один игрок загадывает слово и отмечает количество букв в слове черточками или точками на листе бумаги.</li>
+            <li><span class="highlight">Рисунок виселицы:</span> Второй игрок рисует виселицу с петлей, но без тела. В процессе игры будут добавляться части тела, соответствующие неправильным буквам.</li>
+            <li><span class="highlight">Угадывание букв:</span> Игрок называет букву, которую, по его мнению, может содержать загаданное слово.</li>
+            <li><span class="highlight">Обработка ответа:</span> Если буква есть в слове, игрок, загадавший слово, открывает все места, где встречается эта буква. Если буквы нет, игрок рисует часть тела на виселице (голова, туловище, руки, ноги).</li>
+            <li><span class="highlight">Победа и поражение:</span> Игрок побеждает, если угадывает слово до того, как виселица будет полностью нарисована (все части тела). Игрок проигрывает, если виселица будет полностью нарисована до того, как будет угадано слово.</li>
+            <li><span class="highlight">Повторение:</span> Игра продолжается до победы или поражения. Затем игроки меняются ролями.</li>
+        </ol>
+        
+        <div class="note">
+            <p><strong>Совет:</strong> Начинайте с гласных букв и наиболее часто встречающихся согласных (например, Н, Р, С, Т). Это увеличит ваши шансы на победу!</p>
+        </div>
+        
+        <button class="close-instructions" style="display: block; margin: 0 auto; padding: 10px 20px; background-color: var(--secondary); color: white; border: none; border-radius: 5px; cursor: pointer;">Закрыть</button>
+    </div>
+
     <div class="game-modal">
         <div class="content">
             <img src="images/lost.gif" alt="gif">
@@ -450,6 +598,26 @@
         // Mobile menu toggle
         document.getElementById('mobileMenuBtn').addEventListener('click', function() {
             document.getElementById('navMenu').classList.toggle('active');
+        });
+
+        // Help button functionality
+        const helpBtn = document.getElementById('helpBtn');
+        const instructions = document.getElementById('instructions');
+        const closeInstructions = document.querySelector('.close-instructions');
+
+        helpBtn.addEventListener('click', function() {
+            instructions.classList.add('show');
+        });
+
+        closeInstructions.addEventListener('click', function() {
+            instructions.classList.remove('show');
+        });
+
+        // Close instructions when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!instructions.contains(event.target) && event.target !== helpBtn) {
+                instructions.classList.remove('show');
+            }
         });
     </script>
 </body>
