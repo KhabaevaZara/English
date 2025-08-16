@@ -4,12 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hangman Game</title>
-<link rel="stylesheet" href="/styles.css">
-<script src="/scripts/word-list.js" defer> </script>
-    <script src="/scripts/scripts.js" defer> </script>
+<link rel="stylesheet" href="/games/game.css">
+<script src="/games/scripts/word-list.js" defer> </script>
+    <script src="/games/scripts/scripts.js" defer> </script>
 </head>
 <body>
-    
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <div class="container">
+            <div class="nav-row">
+                <a href="/english.html" class="logo">
+                    <i class="fas fa-book-open"></i>
+                    <strong>English Homework</strong>
+                </a>
+                <div class="contener">
+                    <ul class="nav-list" id="navMenu">
+                        <li class="nav-list__item">
+                            <a href="#" class="nav-list__link">Главная</a>
+                        </li>    
+                        <li class="nav-list__item">
+                            <a href="#about" class="nav-list__link">О платформе</a>
+                        </li> 
+                        <li class="nav-list__item">
+                            <a href="#contact" class="nav-list__link">Контакты</a>
+                        </li> 
+                        <li class="nav-list__item">
+                            <a href="#account" class="nav-list__link">Аккаунт</a>
+                        </li>
+                    </ul>  
+                    
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <div class="lang-switcher">
+                        <button id="languageSwitcher" class="lang-btn">
+                            <i class="fas fa-globe"></i>
+                            <span id="langText">EN</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+     
     <div class="game-modal">
         <div class="content">
             <img src="images/lost.gif" alt="gif">
