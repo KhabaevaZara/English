@@ -4,9 +4,379 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hangman Game</title>
-<link rel="stylesheet" href="/games/game.css">
-<script src="/games/scripts/word-list.js" defer> </script>
-    <script src="/games/scripts/scripts.js" defer> </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="/games/scripts/word-list.js" defer></script>
+    <script src="/games/scripts/scripts.js" defer></script>
+    <style>
+        :root {
+            --color: #5E63BA;
+            --white: #fff;
+            --primary: #A2AF9B;
+            --secondary: #8A9A7B;
+            --accent: #DCCFC0;
+            --light: #FAF9EE;
+            --dark: #5A6650;
+            --success: #A2AF9B;
+            --warning: #DCCFC0;
+            --danger: #C4B8A9;
+            --transition: all 0.3s ease;
+            --dark-blue: #2c3e50;
+            --dark-bg: #34495e;
+            --header-text: #5A6650;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark), var(--primary));
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 20px;
+            background-attachment: fixed;
+            margin-top: 60px;
+        }
+
+        .container {
+            margin: 0 auto;
+            padding: 0 15px;
+            max-width: 1200px;
+        }
+
+        /* Hangman Game Specific Styles */
+        .game-container {
+            width: 850px;
+            background-color: var(--white);
+            padding: 60px 40px;
+            border-radius: 10px;
+            gap: 70px;
+            align-items: flex-end;
+            display: flex;
+            margin: 40px auto;
+        }
+
+        .hangman-box img {
+            min-width: 270px;
+        }
+
+        .hangman-box h6 {
+            font-size: 1.45rem;
+            text-align: center;
+            text-transform: uppercase;
+            margin-top: 20px;
+        }
+
+        .word-display {
+            gap: 10px;
+            margin-bottom: 40px;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            list-style: none;
+        }
+
+        .word-display .letter {
+            width: 28px;
+            font-size: 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            text-align: center;
+            border-bottom: 3px solid #000;
+        }
+
+        .word-display .letter.guessed {
+            border-color: transparent;
+        }
+
+        .game-box h6 {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .game-box h6 b {
+            font-weight: 600;
+        }
+
+        .game-box .guesses-text b {
+            color: #ff0000;
+        }
+
+        .game-box .keyboard {
+            display: flex;
+            gap: 5px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        :where(.game-modal, .keyboard) button {
+            color: var(--white);
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background-color: var(--secondary);
+            border-radius: 4px;
+            cursor: pointer;
+            outline: none;
+            padding: 7px;
+            border: none;
+        }
+
+        .keyboard button {
+            padding: 7px;
+            width: calc(100% / 9 - 5px);
+        }
+
+        .keyboard button[disabled] {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        :where(.game-modal, .keyboard) button:hover {
+            background-color: var(--dark);
+        }
+
+        .game-modal {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            padding: 0 10px;
+            pointer-events: none;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.6);
+            transition: opacity 0.4s ease;
+        }
+
+        .game-modal.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .game-modal .content {
+            background-color: var(--white);
+            width: 420px;
+            text-align: center;
+            border-radius: 10px;
+            padding: 30px;
+        }
+
+        .game-modal img {
+            max-width: 130px;
+            margin-bottom: 20px;
+        }
+
+        .game-modal h6 {
+            font-size: 1.53rem;
+        }
+
+        .game-modal p {
+            font-size: 1.15rem;
+            margin: 15px 0 30px;
+            font-weight: 500;
+        }
+
+        .game-modal p b {
+            color: var(--color);
+            font-weight: 600;
+        }
+
+        .game-modal button {
+            padding: 12px 23px;
+        }
+
+        /* Navigation */
+        .nav {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--danger);
+            background-color: var(--light);
+            color: var(--header-text);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav.scrolled {
+            padding: 10px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            column-gap: 30px;
+            row-gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            color: var(--dark);
+            font-size: 1.5rem;
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contener {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .logo strong {
+            font-weight: 700;
+        }
+
+        .nav-list {
+            display: flex;
+            align-items: center;
+            column-gap: 40px;
+            font-size: 1rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-list__link {
+            color: var(--header-text);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 0;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .nav-list__link::after {
+            content: "";
+            transition: width 0.3s ease;
+            height: 2px;
+            background-color: var(--accent);
+            position: absolute;
+            left: 0;
+            top: 100%;
+            bottom: 0;
+            width: 0;
+        }
+        
+        .nav-list__link:hover::after {
+            width: 100%;
+        }
+
+        /* Language Switcher */
+        .lang-switcher {
+            position: relative;
+            margin-left: 15px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: var(--white);
+            padding: 6px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .lang-btn i {
+            font-size: 0.9rem;
+        }
+
+        /* Mobile menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--header-text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 782px) {
+            .game-container {
+                flex-direction: column;
+                padding: 30px 15px;
+                align-items: center;
+                width: 100%;
+            }
+            .hangman-box img {
+                min-width: 200px;
+            }
+            .hangman-box h6 {
+                display: none;
+            }
+
+            /* Navigation mobile styles */
+            .nav-list {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--light);
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-list.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .contener {
+                padding: 1rem;
+            }
+            
+            .nav-list__item {
+                width: 100%;
+                text-align: center;
+                padding: 10px 0;
+            }
+            
+            .lang-btn {
+                color: var(--dark);
+                border-color: var(--dark);
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -57,7 +427,7 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="game-container">
         <div class="hangman-box">
             <img src="images/hangman-0.svg" alt="hangman">
             <h6>Hangman Game</h6>
@@ -75,7 +445,12 @@
             <div class="keyboard"></div>
         </div>
     </div>
-    
-    
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('navMenu').classList.toggle('active');
+        });
+    </script>
 </body>
 </html>
