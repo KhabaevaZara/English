@@ -6,37 +6,40 @@
     <title>Агент-Лингвист: Миссия по переводу</title>
     <style>
         :root {
-            /* Цветовая палитра */
-            --color-primary: #A2AF9B;
-            --color-primary-hover: #1d4ed8;
-            --color-secondary: #7c3aed;
-            --color-accent: #dc2626;
-            --color-success: #16a34a;
-            --color-warning: #d97706;
-            --color-info: #0891b2;
+            /* Новая цветовая палитра */
+            --color-primary: #A2AF9B;     /* Главный цвет */
+            --color-primary-hover: #8F9A85; /* Затемненный главный */
+            --color-secondary: #DCCFC0;   /* Вторичный цвет */
+            --color-accent: #C8A88F;      /* Акцентный цвет */
+            --color-success: #8AA38B;     /* Успех */
+            --color-warning: #C8B28F;     /* Предупреждение */
+            --color-info: #9BAFA2;        /* Информация */
             
             /* Текст */
-            --color-text: #f8fafc;
-            --color-text-muted: #94a3b8;
-            --color-text-dark: #1e293b;
+            --color-text: #333333;        /* Основной текст */
+            --color-text-muted: #777777;  /* Приглушенный текст */
+            --color-text-dark: #222222;   /* Темный текст */
             
             /* Фоны */
-            --color-bg: #FAF9EE;
-            --color-bg-light: #1e293b;
-            --color-bg-lighter: #334155;
-            --color-bg-transparent: rgba(15, 23, 42, 0.95);
+            --color-bg: #FAF9EE;          /* Основной фон */
+            --color-bg-light: #FFFFFF;    /* Светлый фон */
+            --color-bg-lighter: #EEEEEE;  /* Очень светлый фон */
+            --color-bg-transparent: rgba(250, 249, 238, 0.95);
             
             /* Границы */
             --border-radius: 12px;
             --border-radius-sm: 8px;
             --border-width: 1px;
-            --border-color: rgba(255, 255, 255, 0.1);
+            --border-color: rgba(162, 175, 155, 0.3);
             
             /* Тени */
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-sm: 0 1px 3px 0 rgba(162, 175, 155, 0.1);
+            --shadow: 0 4px 6px -1px rgba(162, 175, 155, 0.1), 
+                      0 2px 4px -1px rgba(162, 175, 155, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(162, 175, 155, 0.1), 
+                         0 4px 6px -2px rgba(162, 175, 155, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(162, 175, 155, 0.1), 
+                         0 10px 10px -5px rgba(162, 175, 155, 0.04);
             
             /* Анимации */
             --transition-fast: 0.15s;
@@ -55,7 +58,7 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.5;
             color: var(--color-text);
-            background: #FAF9EE;
+            background: var(--color-bg);
             min-height: 100vh;
             padding: 2rem;
             -webkit-font-smoothing: antialiased;
@@ -84,22 +87,32 @@
         
         h1 {
             font-size: 2.5rem;
-            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: var(--color-text-dark);
             display: inline-block;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+            border-radius: 2px;
         }
         
         h2 {
             font-size: 1.75rem;
-            color: var(--color-text);
+            color: var(--color-primary);
         }
         
         /* Текст */
         p {
             margin-bottom: 1rem;
-            color: var(--color-text-muted);
+            color: var(--color-text);
         }
         
         /* Шапка */
@@ -126,7 +139,7 @@
             font-size: 1.125rem;
             max-width: 700px;
             margin: 0 auto 1.5rem;
-            color: var(--color-text-muted);
+            color: var(--color-text);
         }
         
         /* Блоки этапов */
@@ -149,9 +162,9 @@
             display: flex;
             align-items: center;
             margin-bottom: 1.25rem;
-            color: var(--color-text);
+            color: var(--color-text-dark);
             font-size: 1.25rem;
-            border-bottom: 2px solid rgba(99, 102, 241, 0.2);
+            border-bottom: 2px solid rgba(162, 175, 155, 0.2);
             padding-bottom: 0.75rem;
         }
         
@@ -171,7 +184,7 @@
         
         /* Контейнеры текста */
         .text-container {
-            background: rgba(0, 0, 0, 0.3);
+            background: var(--color-bg-lighter);
             border-radius: var(--border-radius-sm);
             padding: 1.25rem;
             margin-bottom: 1.25rem;
@@ -188,7 +201,7 @@
         
         /* Подозрительные элементы */
         .suspicious {
-            background: rgba(220, 38, 38, 0.15);
+            background: rgba(200, 168, 143, 0.15);
             border-bottom: 2px dashed var(--color-accent);
             cursor: help;
             transition: all var(--transition-fast);
@@ -198,7 +211,7 @@
         }
         
         .suspicious:hover {
-            background: rgba(220, 38, 38, 0.3);
+            background: rgba(200, 168, 143, 0.3);
         }
         
         /* Подсказки */
@@ -223,7 +236,7 @@
             width: 100%;
             padding: 0.75rem 1rem;
             border-radius: var(--border-radius-sm);
-            background: rgba(0, 0, 0, 0.3);
+            background: var(--color-bg-lighter);
             border: var(--border-width) solid var(--border-color);
             color: var(--color-text);
             font-size: 1rem;
@@ -240,7 +253,7 @@
         textarea:focus, input:focus {
             outline: none;
             border-color: var(--color-primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 0 0 3px rgba(162, 175, 155, 0.2);
         }
         
         /* Контейнеры переводов */
@@ -290,7 +303,7 @@
         
         .audience-option.selected {
             border-color: var(--color-primary);
-            background: rgba(37, 99, 235, 0.1);
+            background: rgba(162, 175, 155, 0.1);
         }
         
         .audience-title {
@@ -302,7 +315,7 @@
         
         .audience-desc {
             font-size: 0.875rem;
-            color: var(--color-text-muted);
+            color: var(--color-text);
         }
         
         /* Кнопки */
@@ -332,7 +345,7 @@
         button:hover {
             background: var(--color-primary-hover);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 12px rgba(162, 175, 155, 0.3);
         }
         
         button:active {
@@ -340,12 +353,12 @@
         }
         
         button.secondary {
-            background: var(--color-bg-lighter);
-            color: var(--color-text);
+            background: var(--color-secondary);
+            color: var(--color-text-dark);
         }
         
         button.secondary:hover {
-            background: var(--color-bg-light);
+            background: #D0C0AE;
         }
         
         #nextPhase, #completeMission {
@@ -353,8 +366,8 @@
         }
         
         #nextPhase:hover, #completeMission:hover {
-            background: #15803d;
-            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+            background: #7B8F7C;
+            box-shadow: 0 4px 12px rgba(138, 163, 139, 0.3);
         }
         
         /* Скрытые элементы */
@@ -367,8 +380,8 @@
             position: absolute;
             top: 1.5rem;
             right: 1.5rem;
-            background: rgba(220, 38, 38, 0.15);
-            border: var(--border-width) solid rgba(220, 38, 38, 0.3);
+            background: rgba(200, 168, 143, 0.15);
+            border: var(--border-width) solid rgba(200, 168, 143, 0.3);
             border-radius: var(--border-radius-sm);
             padding: 0.5rem 1rem;
             font-size: 0.875rem;
@@ -381,15 +394,15 @@
         .completed-message {
             text-align: center;
             padding: 2rem;
-            background: rgba(22, 163, 74, 0.1);
+            background: rgba(138, 163, 139, 0.1);
             border-radius: var(--border-radius);
-            border: var(--border-width) solid rgba(22, 163, 74, 0.3);
+            border: var(--border-width) solid rgba(138, 163, 139, 0.3);
             margin-top: 1.5rem;
         }
         
         /* Подсказки */
         .hint {
-            background: rgba(217, 119, 6, 0.1);
+            background: rgba(200, 178, 143, 0.1);
             border-left: 4px solid var(--color-warning);
             padding: 0.75rem 1rem;
             margin: 1rem 0;
