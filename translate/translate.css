@@ -1,0 +1,496 @@
+:root {
+    --color-primary: #A2AF9B;
+    --color-primary-hover: #8F9A85;
+    --color-secondary: #ecbf8c;
+    --color-accent: #C8A88F;
+    --color-success: #8AA38B;
+    --color-warning: #C8B28F;
+    --color-info: #9BAFA2;
+    --color-text: #788372;
+    --color-text-muted: #777777;
+    --color-text-dark: #A2AF9B;
+    --color-bg: #ccd1c9;
+    --color-bg-light: #FFFFFF;
+    --color-bg-lighter: #EEEEEE;
+    --color-bg-transparent: rgba(250, 249, 238, 0.95);
+    --border-radius: 12px;
+    --border-radius-sm: 8px;
+    --border-width: 1px;
+    --border-color: rgba(162, 175, 155, 0.3);
+    --shadow-sm: 0 1px 3px 0 rgba(162, 175, 155, 0.1);
+    --shadow: 0 4px 6px -1px rgba(162, 175, 155, 0.1), 
+              0 2px 4px -1px rgba(162, 175, 155, 0.06);
+    --shadow-md: 0 10px 15px -3px rgba(162, 175, 155, 0.1), 
+                 0 4px 6px -2px rgba(162, 175, 155, 0.05);
+    --shadow-lg: 0 20px 25px -5px rgba(162, 175, 155, 0.1), 
+                 0 10px 10px -5px rgba(162, 175, 155, 0.04);
+    --transition-fast: 0.15s;
+    --transition-normal: 0.3s;
+    --transition-slow: 0.5s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.5;
+    color: var(--color-text);
+    background: var(--color-bg);
+    min-height: 100vh;
+    padding: 2rem;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: 1800px;
+    margin: 0 auto;
+    background: var(--color-bg-transparent);
+    backdrop-filter: blur(12px);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    border: var(--border-width) solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: var(--color-text-dark);
+    display: inline-block;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    border-radius: 2px;
+}
+
+h2 {
+    font-size: 1.75rem;
+    color: var(--color-primary);
+}
+
+p {
+    margin-bottom: 1rem;
+    color: var(--color-text);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 1.5rem;
+}
+
+header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 3px;
+    background: linear-gradient(to right, transparent, var(--color-primary), transparent);
+    border-radius: 3px;
+}
+
+.mission-statement {
+    font-size: 1.125rem;
+    max-width: 700px;
+    margin: 0 auto 1.5rem;
+    color: var(--color-text);
+}
+
+/* Общий стиль для всех этапов */
+.phase {
+    width: 100%;
+    background: var(--color-bg-light);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    border-left: 4px solid var(--color-primary);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-normal) ease;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.phase.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.phase.completed {
+    border-left-color: var(--color-success);
+}
+
+.phase:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.phase-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    color: var(--color-text-dark);
+    font-size: 1.25rem;
+    border-bottom: 2px solid rgba(162, 175, 155, 0.2);
+    padding-bottom: 0.75rem;
+}
+
+.phase-number {
+    background: var(--color-primary);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.text-container {
+    background: #eedcc8;
+    border-radius: var(--border-radius-sm);
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+    border: var(--border-width) solid var(--border-color);
+}
+
+.original-text {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+    font-style: italic;
+}
+
+.suspicious {
+    background: rgba(200, 168, 143, 0.15);
+    border-bottom: 2px dashed var(--color-accent);
+    cursor: help;
+    transition: all var(--transition-fast);
+    position: relative;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+.suspicious:hover {
+    background: rgba(200, 168, 143, 0.3);
+}
+
+.tooltip {
+    position: absolute;
+    background: var(--color-bg-light);
+    color: var(--color-text);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-md);
+    z-index: 100;
+    max-width: 300px;
+    font-size: 0.875rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    border: var(--border-width) solid var(--border-color);
+}
+
+textarea, input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius-sm);
+    background: var(--color-bg-lighter);
+    border: var(--border-width) solid var(--border-color);
+    color: var(--color-text);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    transition: all var(--transition-fast);
+    font-family: inherit;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+textarea:focus, input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(162, 175, 155, 0.2);
+}
+
+.translation-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.translation-box {
+    background: #FAF9EE;
+    border-radius: var(--border-radius-sm);
+    padding: 1rem;
+    border: var(--border-width) solid var(--border-color);
+}
+
+.translation-title {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.audience-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.audience-option {
+    background: var(--color-bg-lighter);
+    border-radius: var(--border-radius-sm);
+    padding: 1rem;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.audience-option:hover {
+    background: #fdeedd;
+    border-color: var(--border-color);
+    transform: translateY(-2px);
+}
+
+.audience-option.selected {
+    border-color: var(--color-primary);
+    background: rgba(162, 175, 155, 0.1);
+}
+
+.audience-title {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.audience-desc {
+    font-size: 0.875rem;
+    color: var(--color-text);
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    gap: 1rem;
+    width: 100%;
+}
+
+button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    background: var(--color-primary);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+button:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(162, 175, 155, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button.secondary {
+    background: var(--color-secondary);
+}
+
+button.secondary:hover {
+    background: #d0ac83;
+}
+
+#completeMission {
+    background: var(--color-success);
+}
+
+#completeMission:hover {
+    background: #7B8F7C;
+    box-shadow: 0 4px 12px rgba(138, 163, 139, 0.3);
+}
+
+.agent-badge {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(200, 168, 143, 0.15);
+    border: var(--border-width) solid rgba(200, 168, 143, 0.3);
+    border-radius: var(--border-radius-sm);
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.completed-message {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(138, 163, 139, 0.1);
+    border-radius: var(--border-radius);
+    border: var(--border-width) solid rgba(138, 163, 139, 0.3);
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.hint {
+    background: rgba(200, 178, 143, 0.1);
+    border-left: 4px solid var(--color-warning);
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+    font-size: 0.875rem;
+}
+
+.hint strong {
+    color: var(--color-warning);
+}
+
+.phase-lock {
+    position: relative;
+}
+
+.phase-lock::after {
+    content: '🔒 Сначала завершите предыдущий этап';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--color-text);
+    border-radius: var(--border-radius);
+    z-index: 10;
+}
+
+.progress-tracker {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+}
+
+.progress-step {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-bg-lighter);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--color-text-muted);
+    position: relative;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.progress-step.active {
+    background: var(--color-primary);
+    color: white;
+}
+
+.progress-step.completed {
+    background: var(--color-success);
+    color: white;
+}
+
+.progress-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 100%;
+    width: 20px;
+    height: 2px;
+    background: var(--color-bg-lighter);
+}
+
+.progress-step.active:not(:last-child)::after,
+.progress-step.completed:not(:last-child)::after {
+    background: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    
+    .container {
+        padding: 1.5rem;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .agent-badge {
+        position: static;
+        margin-bottom: 1rem;
+        justify-content: center;
+    }
+    
+    .buttons {
+        flex-direction: column;
+    }
+    
+    button {
+        width: 100%;
+    }
+    
+    .phase {
+        width: auto;
+        height: auto;
+    }
+}
